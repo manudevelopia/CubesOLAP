@@ -41,7 +41,7 @@
                 {
                     "master" : "id",
                     "detail" : {
-                        "schema" : "cubes",
+                        "schema" : "manudevelopia$uqasarcube",
                         "table" : "jira_full",
                         "column" : "Project" 
                     }
@@ -58,59 +58,59 @@
             				"id" : "id",
                           	"name" : "TreeNode.name",
 							"created_date_year": {
-                                "schema" : "cubes",
+                                "schema" : "manudevelopia$uqasarcube",
                                 "table" : "jira_full",
                                 "column" : "Created",
                                 "extract" : "year"
                                 },
 							"created_date_month": {
-                                "schema" : "cubes",
+                                "schema" : "manudevelopia$uqasarcube",
                                 "table" : "jira_full",
                                 "column" : "Created",
                                 "extract":"month"
                                 },
 							"created_date_day": {
-                                "schema" : "cubes",
+                                "schema" : "manudevelopia$uqasarcube",
                                 "table" : "jira_full",
                                 "column" : "Created",
                                 "extract":"day"},
                           	"id" : {
-		                        "schema" : "cubes",
+		                        "schema" : "manudevelopia$uqasarcube",
 		                        "table" : "jira_full",
 		                        "column" : "Key" 
                     		},
                             "issue_avg" : {
-                                "schema" : "cubes",
+                                "schema" : "manudevelopia$uqasarcube",
                                 "table" : "jira_full",
                                 "column" : "item"
                             },
                             "issue_type" : {
-                                "schema" : "cubes",
+                                "schema" : "manudevelopia$uqasarcube",
                                 "table" : "jira_full",
                                 "column" : "Issue Type"
                             },
                             "issue_status" : {
-                                "schema" : "cubes",
+                                "schema" : "manudevelopia$uqasarcube",
                                 "table" : "jira_full",
                                 "column" : "Status"
                             },
                             "issue_prio" : {
-                                "schema" : "cubes",
+                                "schema" : "manudevelopia$uqasarcube",
                                 "table" : "jira_full",
                                 "column" : "Priority"
                             },
                             "issue_resolution" : {
-                                "schema" : "cubes",
+                                "schema" : "manudevelopia$uqasarcube",
                                 "table" : "jira_full",
                                 "column" : "Resolution"
                             },
                             "issue_reporter" : {
-                                "schema" : "cubes",
+                                "schema" : "manudevelopia$uqasarcube",
                                 "table" : "jira_full",
                                 "column" : "Reporter"
                             },
                             "issue_watcher" : {
-                                "schema" : "cubes",
+                                "schema" : "manudevelopia$uqasarcube",
                                 "table" : "jira_full",
                                 "column" : "Watchers"
                             }
