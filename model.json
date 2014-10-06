@@ -16,7 +16,7 @@
     "cubes": [
         {
             "name": "project",
-            "descripcion" : "Issues from Jira model",
+            "description" : "Issues from Jira model",
             "label": "U-QASAR Projects",
             "dimensions": ["id",
             			"name",
