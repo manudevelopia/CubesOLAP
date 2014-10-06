@@ -1,0 +1,120 @@
+{
+    "dimensions": [
+    	{"name" : "id"},
+        {"name" : "name", "label" : "Project Name"},
+        {"name" : "created_date_year"},
+        {"name" : "created_date_month"},
+        {"name" : "created_date_day"},
+        {"name" : "issue_type", "label" : "Type"},
+        {"name" : "issue_status", "label" : "Status"},
+        {"name" : "issue_prio", "label" : "Priority"},
+        {"name" : "issue_status", "label" : "Status"},
+        {"name" : "issue_resolution", "label" : "Resolution"},
+        {"name" : "issue_reporter", "label" : "Reporter"},
+        {"name" : "issue_watcher", "label" : "Watchers"}
+    ],
+    "cubes": [
+        {
+            "name": "project",
+            "descripcion" : "Issues from Jira model",
+            "label": "U-QASAR Projects",
+            "dimensions": ["id",
+            			"name",
+                        "created_date_year",
+            			"created_date_month",
+                        "created_date_day",
+                        "issue_type", 
+                        "issue_status", 
+                        "issue_prio", 
+                        "issue_resolution", 
+                        "issue_reporter", 
+                        "issue_watcher"],
+            "joins" : [
+                {
+                    "master":"id", 
+                    "detail" : "TreeNode.id"
+                },
+                {
+                    "master" : "id",
+                    "detail" : "jirametricmeasurement.project_id"
+                },
+                {
+                    "master" : "id",
+                    "detail" : {
+                        "schema" : "cubes",
+                        "table" : "jira_full",
+                        "column" : "Project" 
+                    }
+                }
+            ],
+            "aggregates": [
+                    {
+                        "name": "count",
+                        "label" : "Count",
+                        "function": "count"
+                    }
+                ],
+            "mappings": {
+            				"id" : "id",
+                          	"name" : "TreeNode.name",
+							"created_date_year": {
+                                "schema" : "cubes",
+                                "table" : "jira_full",
+                                "column" : "Created",
+                                "extract" : "year"
+                                },
+							"created_date_month": {
+                                "schema" : "cubes",
+                                "table" : "jira_full",
+                                "column" : "Created",
+                                "extract":"month"
+                                },
+							"created_date_day": {
+                                "schema" : "cubes",
+                                "table" : "jira_full",
+                                "column" : "Created",
+                                "extract":"day"},
+                          	"id" : {
+		                        "schema" : "cubes",
+		                        "table" : "jira_full",
+		                        "column" : "Key" 
+                    		},
+                            "issue_avg" : {
+                                "schema" : "cubes",
+                                "table" : "jira_full",
+                                "column" : "item"
+                            },
+                            "issue_type" : {
+                                "schema" : "cubes",
+                                "table" : "jira_full",
+                                "column" : "Issue Type"
+                            },
+                            "issue_status" : {
+                                "schema" : "cubes",
+                                "table" : "jira_full",
+                                "column" : "Status"
+                            },
+                            "issue_prio" : {
+                                "schema" : "cubes",
+                                "table" : "jira_full",
+                                "column" : "Priority"
+                            },
+                            "issue_resolution" : {
+                                "schema" : "cubes",
+                                "table" : "jira_full",
+                                "column" : "Resolution"
+                            },
+                            "issue_reporter" : {
+                                "schema" : "cubes",
+                                "table" : "jira_full",
+                                "column" : "Reporter"
+                            },
+                            "issue_watcher" : {
+                                "schema" : "cubes",
+                                "table" : "jira_full",
+                                "column" : "Watchers"
+                            }
+                         }
+        }
+    ]
+}
