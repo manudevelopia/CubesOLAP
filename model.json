@@ -1,119 +1,40 @@
 {
     "dimensions": [
-    	{"name" : "id"},
-        {"name" : "name", "label" : "Project Name"},
-        {"name" : "created_date_year"},
-        {"name" : "created_date_month"},
-        {"name" : "created_date_day"},
-        {"name" : "issue_type", "label" : "Type"},
-        {"name" : "issue_status", "label" : "Status"},
-        {"name" : "issue_prio", "label" : "Priority"},
-        {"name" : "issue_status", "label" : "Status"},
-        {"name" : "issue_resolution", "label" : "Resolution"},
-        {"name" : "issue_reporter", "label" : "Reporter"},
-        {"name" : "issue_watcher", "label" : "Watchers"}
+        {"name" : "Jirakey", "label" : "Jirakey"},
+        {"name" : "Issue_Type", "label" : "Type"},
+        {"name" : "Status", "label" : "Status"},
+        {"name" : "Priority", "label" : "Priority"},
+        {"name" : "Resolution", "label" : "Resolution"},
+        {"name" : "Assignee", "label" : "Assignee"},
+        {"name" : "Reporter", "label" : "Reporter"},
+        {"name" : "Creator", "label" : "Creator"},
+        {"name" : "Created", "label" : "Created"}
     ],
     "cubes": [
         {
-            "name": "project",
+            "name": "jira",
             "description" : "Issues from Jira model",
-            "label": "U-QASAR Projects",
-            "dimensions": ["id",
-            			"name",
-                        "created_date_year",
-            			"created_date_month",
-                        "created_date_day",
-                        "issue_type", 
-                        "issue_status", 
-                        "issue_prio", 
-                        "issue_resolution", 
-                        "issue_reporter", 
-                        "issue_watcher"],
-            "joins" : [
-                {
-                    "master":"id", 
-                    "detail" : "TreeNode.id"
-                },
-                {
-                    "master" : "id",
-                    "detail" : "jirametricmeasurement.project_id"
-                },
-                {
-                    "master" : "id",
-                    "detail" : {
-                        "schema" : "manudevelopia$uqasarcube",
-                        "table" : "jira_full",
-                        "column" : "Project" 
-                    }
-                }
-            ],
+            "label": "Jira Issues data",
+            "dimensions": [
+                        "Jirakey",
+                        "Issue_Type",
+                        "Status",
+                        "Priority",
+                        "Resolution",
+                        "Assignee",
+                        "Reporter",
+                        "Creator",
+                        "Created"
+               ],
             "aggregates": [
                     {
-                        "name": "count",
-                        "label" : "Count",
+                        "name": "issues_count",
+                        "label" : "Issues",
                         "function": "count"
                     }
                 ],
             "mappings": {
-            				"id" : "id",
-                          	"name" : "TreeNode.name",
-							"created_date_year": {
-                                "schema" : "manudevelopia$uqasarcube",
-                                "table" : "jira_full",
-                                "column" : "Created",
-                                "extract" : "year"
-                                },
-							"created_date_month": {
-                                "schema" : "manudevelopia$uqasarcube",
-                                "table" : "jira_full",
-                                "column" : "Created",
-                                "extract":"month"
-                                },
-							"created_date_day": {
-                                "schema" : "manudevelopia$uqasarcube",
-                                "table" : "jira_full",
-                                "column" : "Created",
-                                "extract":"day"},
-                          	"id" : {
-		                        "schema" : "manudevelopia$uqasarcube",
-		                        "table" : "jira_full",
-		                        "column" : "Key" 
-                    		},
-                            "issue_avg" : {
-                                "schema" : "manudevelopia$uqasarcube",
-                                "table" : "jira_full",
-                                "column" : "item"
-                            },
-                            "issue_type" : {
-                                "schema" : "manudevelopia$uqasarcube",
-                                "table" : "jira_full",
-                                "column" : "Issue Type"
-                            },
-                            "issue_status" : {
-                                "schema" : "manudevelopia$uqasarcube",
-                                "table" : "jira_full",
-                                "column" : "Status"
-                            },
-                            "issue_prio" : {
-                                "schema" : "manudevelopia$uqasarcube",
-                                "table" : "jira_full",
-                                "column" : "Priority"
-                            },
-                            "issue_resolution" : {
-                                "schema" : "manudevelopia$uqasarcube",
-                                "table" : "jira_full",
-                                "column" : "Resolution"
-                            },
-                            "issue_reporter" : {
-                                "schema" : "manudevelopia$uqasarcube",
-                                "table" : "jira_full",
-                                "column" : "Reporter"
-                            },
-                            "issue_watcher" : {
-                                "schema" : "manudevelopia$uqasarcube",
-                                "table" : "jira_full",
-                                "column" : "Watchers"
-                            }
+
                          }
         }
     ]
