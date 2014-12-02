@@ -1,6 +1,6 @@
 {
     "dimensions": [
-        {"name" : "Jirakey", "label" : "Jirakey"},
+        {"name" : "Project", "label" : "Project"},
         {"name" : "Issue_Type", "label" : "Type"},
         {"name" : "Status", "label" : "Status"},
         {"name" : "Priority", "label" : "Priority"},
@@ -14,9 +14,9 @@
         {
             "name": "jira",
             "description" : "Issues from Jira model",
-            "label": "Jira Issues data",
+            "label": "U-QASAR Projects",
             "dimensions": [
-                        "Jirakey",
+                        "Project",
                         "Issue_Type",
                         "Status",
                         "Priority",
@@ -28,14 +28,12 @@
                ],
             "aggregates": [
                     {
-                        "name": "issues_count",
+                        "name": "count",
                         "label" : "Issues",
                         "function": "count"
                     }
                 ],
-            "mappings": {
-
-                         }
+            "mappings": {         }
         }
     ]
 }

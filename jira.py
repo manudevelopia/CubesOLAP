@@ -24,8 +24,8 @@ cursor = database.cursor()
 
 # Mysql - Create the INSERT INTO sql query - 52 Columns
 query = """INSERT INTO """ + table + """ (
+`Issuekey`,
 `Project`,
-`Jirakey`,
 `Summary`,
 `Issue_Type`,
 `Status`,
@@ -99,9 +99,8 @@ issue = AttrDict(json_issue)
 
 # Print as a trace
 for element in issue.issues:
-
+    Issuekey = element.key
     Project = element.fields.project.name
-    Jirakey = element.key
     Summary = element.fields.summary
     Issue_Type = element.fields.issuetype.name
     Status = element.fields.status.statusCategory.name
@@ -163,8 +162,8 @@ for element in issue.issues:
     CHART_Date_of_First_Response = element.fields.customfield_10001
 
     values = (
+    Issuekey,
     Project,
-    Jirakey,
     Summary,
     Issue_Type,
     Status,
