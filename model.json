@@ -1,7 +1,7 @@
 {
     "dimensions": [
         {"name" : "Project", "label" : "Project"},
-        {"name" : "Issue_Type", "label" : "Type"},
+        {"name" : "Type", "label" : "Type"},
         {"name" : "Status", "label" : "Status"},
         {"name" : "Priority", "label" : "Priority"},
         {"name" : "Resolution", "label" : "Resolution"},
@@ -17,7 +17,7 @@
             "label": "U-QASAR Projects",
             "dimensions": [
                         "Project",
-                        "Issue_Type",
+                        "Type",
                         "Status",
                         "Priority",
                         "Resolution",

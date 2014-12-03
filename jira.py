@@ -27,7 +27,7 @@ query = """INSERT INTO """ + table + """ (
 `Issuekey`,
 `Project`,
 `Summary`,
-`Issue_Type`,
+`Type`,
 `Status`,
 `Priority`,
 `Resolution`,
@@ -102,7 +102,7 @@ for element in issue.issues:
     Issuekey = element.key
     Project = element.fields.project.name
     Summary = element.fields.summary
-    Issue_Type = element.fields.issuetype.name
+    Type = element.fields.issuetype.name
     Status = element.fields.status.statusCategory.name
     Priority = element.fields.priority.name
 
@@ -165,7 +165,7 @@ for element in issue.issues:
     Issuekey,
     Project,
     Summary,
-    Issue_Type,
+    Type,
     Status,
     Priority,
     Resolution,
