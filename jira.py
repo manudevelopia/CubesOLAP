@@ -1,20 +1,82 @@
 import MySQLdb
 import requests
+
 from requests.auth import HTTPBasicAuth
 from attrdict import AttrDict
 from datetime import date
 
+# Local database credentials
+host = "localhost"
+user = "root"
+passwd = "root"
 
-# host =      "localhost"
-# user =      "root"
-# passwd =    "root"
+#  Remote database credentials
+# host =      "mysql.server"
+# user =      "uqasar"
+# passwd =    "UqasarAdmin2012"
 
-host =      "mysql.server"
-user =      "uqasar"
-passwd =    "UqasarAdmin2012"
-
+# Common MySQL credentials
 db =        "uqasar$cubes"
 table =     "jira"
+
+# Sonar instance data and credentials
+jira_url = 'https://uqasar.atlassian.net/rest/api/2/search?jql=&maxResults=-1'
+jira_user = 'uqasaradmin'
+jira_passwd = 'UqasarAdmin2012'
+jira_metrics = [
+'Issuekey',
+'Project',
+'Summary',
+'Type',
+'Status',
+'Priority',
+'Resolution',
+'Assignee',
+'Reporter',
+'Creator',
+'Created',
+'Last_Viewed',
+'Updated',
+'Resolved',
+'Affects_Versions',
+'Fix_Versions',
+'Components',
+'Due_Date',
+'Votes',
+'Watchers',
+'Images',
+'Original_Estimate',
+'Remaining_Estimate',
+'Time_Spent',
+'Work_Ratio',
+'SubTasks',
+'Linked_Issues',
+'Environment',
+'Description',
+'Security_Level',
+'Progress',
+'SUM_Progress',
+'SUM_Time_Spent',
+'SUM_Remaining_Estimate',
+'SUM_Original_Estimate',
+'Labels',
+'Business_Value',
+'Epic_Colour',
+'Epic_Link',
+'Epic_Name',
+'Epic_Status',
+'EpicTheme',
+'Flagged',
+'Raised_During',
+'Rank',
+'Sprint',
+'Story',
+'Story_Points',
+'Team',
+'Test_Sessions',
+'Testing_Status',
+'CHART_Date_of_First_Response'
+]
 
 # Establish a MySQL connection
 database = MySQLdb.connect(host, user, passwd, db)
@@ -23,6 +85,7 @@ database = MySQLdb.connect(host, user, passwd, db)
 cursor = database.cursor()
 
 # Mysql - Create the INSERT INTO sql query - 52 Columns
+format_strings = ','.join(['%s'] * (len(jira_metrics)))
 query = """INSERT INTO """ + table + """ (
 `Issuekey`,
 `Project`,
@@ -76,11 +139,11 @@ query = """INSERT INTO """ + table + """ (
 `Test_Sessions`,
 `Testing_Status`,
 `CHART_Date_of_First_Response`
-) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+) VALUES (""" + format_strings + """)"""
 
 # Request to Jira API
-r = requests.get('https://uqasar.atlassian.net/rest/api/2/search?jql=&maxResults=-1',
-                 auth=HTTPBasicAuth('uqasaradmin', 'UqasarAdmin2012'))
+r = requests.get(jira_url, auth=HTTPBasicAuth(jira_user, jira_passwd))
+
 
 # Check if the statuscode is 200 = ok! and truncates the table
 if(r.status_code == 200) :

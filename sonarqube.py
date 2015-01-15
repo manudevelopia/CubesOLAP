@@ -16,8 +16,8 @@ user =      "uqasar"
 passwd =    "UqasarAdmin2012"
 
 # Common MySQL credentials
-db = "uqasar$cubes"
-table = "sonarqube"
+db =        "uqasar$cubes"
+table =     "sonarqube"
 
 # Sonar instance data and credentials
 sonar_url = "http://dev.uqasar.eu/sonar"
