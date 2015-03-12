@@ -6,14 +6,14 @@ from attrdict import AttrDict
 from datetime import date
 
 # Local database credentials
-host = "localhost"
-user = "root"
-passwd = "root"
+#host = "localhost"
+#user = "root"
+#passwd = "root"
 
 #  Remote database credentials
-# host =      "mysql.server"
-# user =      "uqasar"
-# passwd =    "UqasarAdmin2012"
+host =      "mysql.server"
+user =      "uqasar"
+passwd =    "UqasarAdmin2012"
 
 # Common MySQL credentials
 db =        "uqasar$cubes"
