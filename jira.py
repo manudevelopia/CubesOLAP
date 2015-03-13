@@ -8,7 +8,7 @@ from datetime import date
 from credentials import Credentials
 
 # MySQL database credentials
-host = Credentials().host
+host = Credentials.host
 user = Credentials.user
 passwd = Credentials.passwd
 db = Credentials.db
