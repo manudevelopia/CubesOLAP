@@ -8,7 +8,12 @@
         {"name" : "Assignee", "label" : "Assignee"},
         {"name" : "Reporter", "label" : "Reporter"},
         {"name" : "Creator", "label" : "Creator"},
-        {"name" : "Created", "label" : "Created"}
+        {"name" : "Created", "label" : "Created"},
+        {"name" : "Labels", "label" : "Labels"},
+        {"name" : "Affects_Versions", "label" : "Affects_Versions"},
+        {"name" : "Fix_Versions", "label" : "Fix_Versions"},
+        {"name" : "Components", "label" : "Components", "attributes": ["components"]},
+        {"name" : "Epic_Link", "label" : "EpicLink"}
     ],
     "cubes": [
         {
@@ -24,16 +29,49 @@
                         "Assignee",
                         "Reporter",
                         "Creator",
-                        "Created"
-               ],
+                        "Created",
+                        "Labels",
+                        "Affects_Versions",
+                        "Fix_Versions",
+                        "Components",
+                        "Epic_Link"
+            ],
+            "joins" :[
+                  {
+                    "master":"Issuekey",
+                    "detail" : {
+                          "table" : "jira_components",
+                          "column" : "issue_key"
+                    }
+                  }
+            ],
+            "measures":[
+                    {"name": "Business_Value"},
+                    {"name": "Story_Points"},
+                    {"name": "Original_Estimate"},
+                    {"name": "Remaining_Estimate"},
+                    {"name": "Time_Spent"}
+
+            ],
             "aggregates": [
                     {
                         "name": "count",
                         "label" : "Issues",
                         "function": "count"
+                    },
+                    {
+                        "name": "Time_Spent_avg",
+                        "label": "Average TimeSpent",
+                        "function": "avg",
+                        "measure": "Time_Spent"
                     }
                 ],
-            "mappings": {         }
+            "mappings": {
+                    "Components" : {
+                              "table" : "jira_components",
+                              "column" : "components"
+                    }
+                     }
         }
     ]
 }

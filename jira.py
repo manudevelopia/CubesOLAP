@@ -12,7 +12,7 @@ host = Credentials.host
 user = Credentials.user
 passwd = Credentials.passwd
 db = Credentials.db
-table = Credentials.table
+table = Credentials.table_jira
 
 # Jira instance data and credentials
 jira_url = Credentials.url_jira

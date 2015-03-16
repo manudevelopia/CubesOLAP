@@ -1,29 +1,25 @@
 import MySQLdb
 import requests
 import json
+
 from requests.auth import HTTPBasicAuth
 from attrdict import AttrDict
 from datetime import date
 
-# Local database credentials
-#host = "localhost"
-#user = "root"
-#passwd = "root"
+from credentials import Credentials
 
-#  Remote database credentials
-host =      "mysql.server"
-user =      "uqasar"
-passwd =    "UqasarAdmin2012"
-
-# Common MySQL credentials
-db =        "uqasar$cubes"
-table =     "sonarqube"
+# MySQL database credentials
+host = Credentials.host
+user = Credentials.user
+passwd = Credentials.passwd
+db = Credentials.db
+table = Credentials.table_sonar
 
 # Sonar instance data and credentials
-sonar_url = "http://dev.uqasar.eu/sonar"
-sonar_user = "'admin"
-sonar_passwd = "!sonar!"
-sonar_project_key = "eu.uqasar:uqasar"
+sonar_url = Credentials.url_sonar
+sonar_user = Credentials.user_sonar
+sonar_passwd = Credentials.passwd_sonar
+sonar_project_key = Credentials.project_key_sonar
 sonar_metrics = [
     'lines',
     'ncloc',
@@ -133,7 +129,10 @@ sonarquery = sonar_url + '/api/resources?resource=' + \
     sonar_project_key + '&' + 'metrics=' + ','.join(sonar_metrics)
 
 # Request to Jira API
-r = requests.get(sonarquery, auth=HTTPBasicAuth(sonar_user, sonar_passwd))
+# r = requests.get(sonarquery, auth=HTTPBasicAuth(sonar_user, sonar_passwd))
+
+# HTTPBasicAuth is faling,this is another way
+r = requests.get(sonarquery, headers=Credentials.header_auth_sonar)
 
 # Convert the response to JSON
 r.headers['content-type']
@@ -142,6 +141,7 @@ sonar_json = r.json()
 
 # Parse the resporse with all the proejcts queried
 for project in sonar_json:
+
     # inproves JSON attributes accesibility
     project = AttrDict(project)
 

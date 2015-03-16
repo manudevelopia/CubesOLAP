@@ -63,7 +63,7 @@ CREATE TABLE `jira` (
   `Labels` varchar(34) DEFAULT NULL,
   `Business_Value` int(3) DEFAULT NULL,
   `Epic_Colour` varchar(1) DEFAULT NULL,
-  `Epic_Link` varchar(5) DEFAULT NULL,
+  `Epic_Link` varchar(1) DEFAULT NULL,
   `Epic_Name` varchar(1) DEFAULT NULL,
   `Epic_Status` varchar(1) DEFAULT NULL,
   `EpicTheme` varchar(1) DEFAULT NULL,
