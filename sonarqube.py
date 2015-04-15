@@ -4,7 +4,7 @@ import json
 
 from requests.auth import HTTPBasicAuth
 from attrdict import AttrDict
-from datetime import date
+from datetime import datetime
 
 from credentials import Credentials
 
@@ -77,7 +77,7 @@ query = """INSERT INTO """ + table + """ (
   `timestamp`,
   `key`,
   `name`,
-  `date`,
+  `datestamp`,
   `lang`,
   `version`,
   `lines`,
@@ -139,6 +139,8 @@ r.headers['content-type']
 r.encoding
 sonar_json = r.json()
 
+datestamp = str(datetime.today())
+
 # Parse the resporse with all the proejcts queried
 for project in sonar_json:
 
@@ -149,7 +151,7 @@ for project in sonar_json:
 
     # Project details
     projectdata = (
-        str(date.today()),
+        datestamp,
         project.key,
         project.name,
         project.date,
@@ -185,6 +187,6 @@ for project in sonar_json:
     # Close the database connection
     database.close()
 
-    print (str(date.today())
+    print (datestamp
            + ' Operation finished, updated metrics SonarQube '
            + project.name + ' Project.')
