@@ -12,14 +12,21 @@
         {"name" : "Labels", "label" : "Labels"},
         {"name" : "Affects_Versions", "label" : "Affects_Versions"},
         {"name" : "Fix_Versions", "label" : "Fix_Versions"},
-        {"name" : "Components", "label" : "Components", "attributes": ["components"]},
-        {"name" : "Epic_Link", "label" : "EpicLink"}
+        {"name" : "Epic_Link", "label" : "EpicLink"},
+        {"name" : "Components", "label" : "Components"},
+
+        {"name" : "key", "label" : "key"},
+        {"name" : "name", "label" : "name"},
+        {"name" : "datestamp", "label" : "datestamp"},
+        {"name" : "lang", "label" : "lang"},
+        {"name" : "version", "label" : "version"}
+
     ],
     "cubes": [
         {
             "name": "jira",
             "description" : "Issues from Jira model",
-            "label": "U-QASAR Projects",
+            "label": "Jira - U-QASAR Projects",
             "dimensions": [
                         "Project",
                         "Type",
@@ -38,11 +45,8 @@
             ],
             "joins" :[
                   {
-                    "master":"Issuekey",
-                    "detail" : {
-                          "table" : "jira_components",
-                          "column" : "issue_key"
-                    }
+                    "master" : "Project",
+                    "detail" : {"table":"sonarqube","column":"name"}
                   }
             ],
             "measures":[
@@ -51,7 +55,6 @@
                     {"name": "Original_Estimate"},
                     {"name": "Remaining_Estimate"},
                     {"name": "Time_Spent"}
-
             ],
             "aggregates": [
                     {
@@ -65,13 +68,63 @@
                         "function": "avg",
                         "measure": "Time_Spent"
                     }
-                ],
-            "mappings": {
-                    "Components" : {
-                              "table" : "jira_components",
-                              "column" : "components"
-                    }
-                     }
+                ]
+        },
+        {
+          "name": "sonarqube",
+          "description" : "SonarQube static code analysis",
+          "label": "SonarQube - U-QASAR Projects",
+          "dimensions": [
+                      "key",
+                      "name",
+                      "datestamp",
+                      "lang",
+                      "version"
+                    ],
+          "measures" : [
+            {"name": "lines"},
+            {"name": "ncloc"},
+            {"name": "classes"},
+            {"name": "files"},
+            {"name": "packages"},
+            {"name": "functions"},
+            {"name": "accessors"},
+            {"name": "statements"},
+            {"name": "public_api"},
+            {"name": "complexity"},
+            {"name": "class_complexity"},
+            {"name": "function_complexity"},
+            {"name": "file_complexity"},
+            {"name": "comment_lines"},
+            {"name": "comment_lines_density"},
+            {"name": "public_documented_api_density"},
+            {"name": "public_undocumented_api"},
+            {"name": "tests"},
+            {"name": "test_execution_time"},
+            {"name": "test_errors"},
+            {"name": "skipped_tests"},
+            {"name": "test_failures"},
+            {"name": "test_success_density"},
+            {"name": "coverage"},
+            {"name": "lines_to_cover"},
+            {"name": "uncovered_lines"},
+            {"name": "line_coverage"},
+            {"name": "conditions_to_cover"},
+            {"name": "uncovered_conditions"},
+            {"name": "branch_coverage"},
+            {"name": "duplicated_lines"},
+            {"name": "duplicated_blocks"},
+            {"name": "duplicated_files"},
+            {"name": "duplicated_lines_density"},
+            {"name": "weighted_violations"},
+            {"name": "violations_density"},
+            {"name": "violations"},
+            {"name": "blocker_violations"},
+            {"name": "critical_violations"},
+            {"name": "major_violations"},
+            {"name": "minor_violations"},
+            {"name": "info_violations"}
+          ]
         }
     ]
 }
