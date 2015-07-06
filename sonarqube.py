@@ -8,11 +8,14 @@ from datetime import datetime
 from credentials import Credentials
 from dbase import Dbase
 
+# Timestamp to grab all metric values with the same date on evey dump
+datestamp = None
+
 # MySQL database table
 table = Credentials.table_sonar
 
 # Sonar instance data and credentials
-sonar_url = Credentials.url_sonar
+sonar_url = Credentials.url_sonar + '/api/resources?resource='
 sonar_project_key = Credentials.project_key_sonar
 
 # Sonar Metrics to be checked
@@ -61,10 +64,6 @@ sonar_metrics = [
     'info_violations'
 ]
 
-# Database initialization
-db = Dbase()
-db.open()
-
 # Mysql - Create the INSERT INTO sql query
 format_strings = ','.join(['%s'] * (len(sonar_metrics) + 6))
 query = """INSERT INTO """ + table + """ (
@@ -77,56 +76,77 @@ query = """INSERT INTO """ + table + """ (
   + '`,`'.join(sonar_metrics) + """`
 ) VALUES (""" + format_strings + """)"""
 
-# Compose Query for SonarQube
-sonarquery = sonar_url + \
-    '/api/resources?resource=' + \
-    sonar_project_key + \
-    '&metrics=' + ','.join(sonar_metrics)
 
-# Retrieve the sonarqube Json file
-sonar_json = jsonservice.get_json(sonarquery, Credentials.header_auth_sonar)
+def get_components(project_key):
+    """Get Json of the project from the Sonarqube."""
+    query = sonar_url + project_key + '&depth=-1'
+    return jsonservice.get_json(query, Credentials.header_auth_sonar)
 
-# Saves Date stamp for this dump
-datestamp = str(datetime.today())
 
-# Parse the resporse with all the proejcts queried
-for project in sonar_json:
+def get_metric_values(key):
+    """Get Metric values to be persisted in MySQL."""
+    # Compose Query for SonarQube
+    query = sonar_url + \
+        key + '&metrics=' + ','.join(sonar_metrics)
 
-    # inproves JSON attributes accesibility
-    project = AttrDict(project)
+    # Retrieve the sonarqube Json file
+    sonar_json = jsonservice.get_json(query, Credentials.header_auth_sonar)
 
-    # Assigns values  to compose the MySQL Query
+    # Parse the resporse to retrieve the metric values
+    for project in sonar_json:
+        # inproves JSON attributes accesibility
+        project = AttrDict(project)
 
-    # Project details
-    projectdata = (
-        datestamp,
-        project.key,
-        'UQASAR',  # project.name, this has been harcoded to avoid problems
-        project.date,
-        project.lang,
-        project.version
-    )
+        # Project details
+        projectdata = (
+            datestamp,
+            project.key,
+            'UQASAR',  # project.name, this has been harcoded to avoid problems
+            project.date,
+            project.lang,
+            'Version 1'  # .project.version
+        )
 
-    # Metric List form Sonar metric list to store values
-    metriclist = list(sonar_metrics)
+        # Metric List form Sonar metric list to store values
+        metriclist = list(sonar_metrics)
 
-    # Parse the metrics
-    for metric in project.msr:
-        if metric.key in sonar_metrics:
-            metriclist[sonar_metrics.index(metric.key)] = metric.val
+        # Parse the metrics
+        for metric in project.msr:
+            if metric.key in sonar_metrics:
+                metriclist[sonar_metrics.index(metric.key)] = metric.val
 
-    # Metric List converted form list to tuple
-    metricvalues = tuple(metriclist)
+        # Metric List converted form list to tuple
+        metricvalues = tuple(metriclist)
 
-    # Concatenates all the  items
-    values = projectdata + metricvalues
+        # Concatenates all the  items
+        return projectdata + metricvalues
 
-    # Execute the MySQL Query
-    db.query(query, values)
+
+def main():
+    """SonarQube script data dumper."""
+    global datestamp
+
+    # Generate Timestamp for this dump
+    datestamp = str(datetime.today())
+
+    # Database initialization
+    db = Dbase()
+    db.open()
+
+    # Get Project Sonar Components
+    components = get_components(sonar_project_key)
+    for component in components:
+        c = AttrDict(component)
+        # Get the values for the key
+        values = get_metric_values(c.key)
+        # Execute the MySQL Query
+        db.query(query, values)
 
     # Close the database connection
     db.close()
 
-    print (datestamp
-           + ' Operation finished, updated metrics SonarQube '
-           + project.name + ' Project.')
+    print (datestamp + ' Operation finished, metrics updated.')
+
+
+if __name__ == "__main__":
+    main()
