@@ -18,7 +18,8 @@ table = Credentials.table_sonar
 sonar_url = Credentials.url_sonar + '/api/resources?resource='
 sonar_project_key = Credentials.project_key_sonar
 
-# Sonar Metrics to be checked
+# Sonar Metrics to be checked in SonarQube
+# undesired metrics can be commented
 sonar_metrics = [
     'lines',
     'ncloc',
@@ -107,8 +108,9 @@ def get_metric_values(key):
             'Version 1'  # .project.version
         )
 
-        # Metric List form Sonar metric list to store values
-        metriclist = list(sonar_metrics)
+        # Metric List to store values with 0 to store Sonar metric list
+        # maybe list should contain 'None' instead 0.
+        metriclist = list(0 for i in xrange(len(sonar_metrics)))
 
         # Parse the metrics
         for metric in project.msr:
@@ -145,6 +147,7 @@ def main():
     # Close the database connection
     db.close()
 
+    # Print a Happy ending
     print (datestamp + ' Operation finished, metrics updated.')
 
 
