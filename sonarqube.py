@@ -137,6 +137,15 @@ def main():
 
     # Get Project Sonar Components
     components = get_components(sonar_project_key)
+
+    if jsonservice.status_code is not 200:
+        print 'Sonarqube connection cannot be resolved'
+        quit()
+
+    # Database is truncated to store the new information
+    db.truncate(table)
+
+    # Passe all the components to retrieve desired metric values
     for component in components:
         c = AttrDict(component)
         # Get the values for the key
@@ -148,7 +157,9 @@ def main():
     db.close()
 
     # Print a Happy ending
-    print (datestamp + ' Operation finished, metrics updated.')
+    print 'Operation finished!!!'
+    print 'Values from %d metrics has been updated.' % len(components)
+    print 'The timestamp assingned has been' + datestamp
 
 
 if __name__ == "__main__":

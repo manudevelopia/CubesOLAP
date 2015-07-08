@@ -19,21 +19,22 @@ class Dbase:
             Credentials.user,
             Credentials.passwd,
             Credentials.db)
-
-    def query(self, query, values):
-        """Execute the MySQL Query."""
         # Get the cursor, which is used to traverse the database, line by line
         self.cursor = self.database.cursor()
 
+    def query(self, query, values):
+        """Execute the MySQL Query."""
         # Execute the query to persist the result
         self.cursor.execute(query, values)
-
-        # Close the cursor
-        self.cursor.close()
 
         # Commit the transaction
         self.database.commit()
 
+    def truncate(self, table):
+        """Truncate the given table."""
+        self.cursor.execute("TRUNCATE TABLE " + table)
+
     def close(self):
-        """Close the database connection."""
+        """Close the cursor and database."""
+        self.cursor.close()
         self.database.close()
